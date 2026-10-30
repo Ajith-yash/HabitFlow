@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>HabitFlow – Build Better Habits. One Day at a Time.</title>
+<meta name="theme-color" content="#2563EB"><link rel="manifest" href="manifest.json"><link rel="icon" href="assets/icons/icon.svg">
+<link rel="stylesheet" href="css/style.css"><link rel="stylesheet" href="css/mobile.css">
+</head><body>
+<header class="nav">
+  <a class="brand" href="#home"><img src="assets/icons/icon.svg" alt="">HabitFlow</a>
+  <nav class="links" id="links" aria-label="Main">
+    <a href="#home">Home</a><a href="#dashboard" data-app>Dashboard</a><a href="#habits" data-app>My Habits</a><a href="#analytics" data-app>Analytics</a><a href="#calendar" data-app>Calendar</a><a href="#downloads" data-app>Downloads</a><a href="#about">About</a><a href="#profile" data-app>Settings</a></nav>
+  <span class="chip off" id="offline" hidden>Offline</span><span class="chip" id="mode">Not signed in</span>
+  <button class="btn sm ghost" id="installBtn" hidden>Install app</button>
+  <a class="btn sm" id="loginLink" href="#auth">Log in</a>
+</header>
+
+<main>
+<p class="msg err" id="fatal" role="alert"></p>
+
+<section class="view" id="v-home">
+  <div class="hero"><h1>Build Better Habits. One Day at a Time.</h1>
+    <p>HabitFlow helps you plan daily routines, check them off, and see your consistency grow through simple charts. Everything stays on your device.</p>
+    <div class="row wrap"><a class="btn lg" href="#auth">Get Started</a><button class="btn lg ghost" id="guestBtn">Explore as Guest</button></div>
+    <div class="card mock" aria-hidden="true"><div class="muted">Dashboard preview (illustration)</div><div class="sk b" style="width:70%"></div><div class="sk" style="width:90%"></div><div class="sk" style="width:55%"></div></div></div>
+  <h2>What you can do</h2>
+  <div class="feat">
+    <div class="card"><h4>Track habits</h4><p class="muted">Daily, weekly or selected-day schedules with colours, icons and reminders.</p></div>
+    <div class="card"><h4>Keep streaks</h4><p class="muted">Streaks follow each habit's schedule, so off-days never break them.</p></div>
+    <div class="card"><h4>See your progress</h4><p class="muted">Charts, a yearly heatmap and a calendar built from your real records.</p></div>
+    <div class="card"><h4>Stay private</h4><p class="muted">No server and no tracking. Export a backup whenever you like.</p></div></div>
+  <h2>How it works</h2>
+  <ol class="steps"><li><b>Add a habit</b><p class="muted">Pick a name, schedule and start date.</p></li><li><b>Check it off</b><p class="muted">Mark it complete each day from your dashboard.</p></li><li><b>Review</b><p class="muted">Open Analytics to see what is working.</p></li></ol>
+  <h2 style="margin-top:26px">Why track habits?</h2>
+  <div class="card"><p class="muted">Small actions repeated daily add up. Seeing a visible streak makes it easier to keep going, and weekly charts show where a routine needs adjusting.</p></div>
+</section>
+
+<section class="view" id="v-auth">
+  <div class="card" style="max-width:460px;margin:0 auto">
+    <div class="tabs"><button class="btn" id="tLogin">Log in</button><button class="btn ghost" id="tReg">Create account</button></div>
+    <form id="fLogin" novalidate><label>Email or username<input id="lId" autocomplete="username"></label><label>Password<input id="lPw" type="password" autocomplete="current-password"></label><button class="btn" style="width:100%">Log in</button></form>
+    <form id="fReg" novalidate hidden><label>Full name<input id="rName" autocomplete="name"></label><label>Username<input id="rUser" autocomplete="username"></label><label>Email address<input id="rEmail" type="email" autocomplete="email"></label>
+      <label>Password (min 8 characters)<input id="rPw" type="password" autocomplete="new-password"></label><label>Confirm password<input id="rPw2" type="password" autocomplete="new-password"></label><button class="btn" style="width:100%">Create account</button></form>
+    <p class="msg err" id="authMsg" role="alert"></p>
+    <p class="muted"><b>Local accounts only.</b> Accounts exist only in this browser. No email is sent, nothing is verified online, and accounts cannot sync between devices. Do not reuse an important password.</p>
+    <button class="btn ghost" id="guestBtn2" style="width:100%">Continue as Guest</button></div>
+</section>
+
+<section class="view" id="v-dashboard">
+  <div class="top"><div><h1 id="greet"></h1><p class="muted" id="todayLbl"></p></div><button class="btn" data-add><i data-ic="plus"></i>Add New Habit</button></div>
+  <div class="stats" id="stats"></div>
+  <div class="grid2">
+    <div class="card"><h2>Daily progress</h2><div class="row"><div class="ring" id="ring"><b id="ringTxt"></b></div><div class="grow"><p id="ringSub"></p><div class="bar"><i id="ringBar"></i></div></div></div><p class="quote" id="quote"></p>
+      <h3>Quick actions</h3><div class="row wrap"><a class="btn sm ghost" href="#analytics">View Analytics</a><a class="btn sm ghost" href="#calendar">Open Calendar</a><a class="btn sm ghost" href="#habits">View All Habits</a></div></div>
+    <div class="card"><h2>Today's habits</h2><div id="todayList"></div></div></div>
+</section>
+
+<section class="view" id="v-habits">
+  <div class="top"><h1>My Habits</h1><button class="btn" data-add><i data-ic="plus"></i>Add New Habit</button></div>
+  <div class="row wrap" style="margin-bottom:14px"><input class="grow" id="q" placeholder="Search habits" aria-label="Search habits"><select id="fcat" aria-label="Category"></select><select id="fstat" aria-label="Status"><option value="active">Active</option><option value="paused">Paused</option><option value="archived">Archived</option><option value="all">All</option></select>
+  <select id="fsort" aria-label="Sort"><option value="new">Newest</option><option value="old">Oldest</option><option value="name">Name</option><option value="rate">Completion</option></select></div>
+  <div class="card" id="habitList"></div>
+</section>
+
+<section class="view" id="v-analytics">
+  <div class="top"><h1>Analytics</h1><select id="range" aria-label="Period"><option value="7">Daily (7 days)</option><option value="30" selected>Weekly (30 days)</option><option value="90">Monthly (90 days)</option><option value="365">Yearly (1 year)</option></select></div>
+  <div id="aEmpty" class="card empty" hidden>No habits yet. <a href="#habits">Add your first habit</a> to see charts.</div>
+  <div id="aBody">
+  <div class="stats" id="astats"></div>
+  <div class="grid2"><div class="card"><h2>Daily progress (% completed)</h2><div class="cv"><canvas id="c1"></canvas></div></div>
+    <div class="card"><h2>Weekly performance (% by weekday)</h2><div class="cv"><canvas id="c2"></canvas></div></div>
+    <div class="card"><h2 id="c3t">Consistency trend</h2><div class="cv"><canvas id="c3"></canvas></div></div>
+    <div class="card"><h2>Habits by category</h2><div class="cv"><canvas id="c4"></canvas></div><div class="legend" id="c4l"></div></div></div>
+  <div class="card"><h2>Completed vs missed per habit</h2><div id="hbars"></div></div>
+  <div class="card"><h2>Consistency heatmap (last 12 months)</h2><div class="heat" id="heat"></div><p class="muted">Darker blue means a higher share of scheduled habits completed.</p></div>
+  <div class="card"><h2>Individual habit</h2><select id="oneSel" aria-label="Habit"></select><div class="stats" id="oneStats" style="margin-top:12px"></div><div class="cv"><canvas id="c5"></canvas></div></div></div>
+</section>
+
+<section class="view" id="v-calendar">
+  <div class="top"><h1>Calendar</h1><div class="row"><button class="btn ghost" id="prevM" aria-label="Previous month">&lsaquo;</button><b id="monthLbl"></b><button class="btn ghost" id="nextM" aria-label="Next month">&rsaquo;</button></div></div>
+  <div class="grid2"><div class="card"><div class="cal" id="cal"></div><p class="muted" style="margin-top:10px">Green: all done. Amber: partly done. Red: missed.</p></div><div class="card"><h2 id="dayTitle">Select a date</h2><div id="dayList"></div></div></div>
+</section>
+
+<section class="view" id="v-downloads">
+  <div class="top"><h1>Downloads &amp; Data</h1></div>
+  <div class="card"><h2>Export data</h2><p class="muted" id="expWho"></p><div class="row wrap"><button class="btn" id="xJson">Export all data (JSON)</button><button class="btn" id="xHab">Habits (CSV)</button><button class="btn" id="xHist">Completion history (CSV)</button><button class="btn ghost" id="xGuest">Export guest data (JSON)</button></div></div>
+  <div class="card"><h2>Import backup</h2><p class="muted">Choose a HabitFlow JSON backup. It is validated before anything changes.</p><input type="file" id="imp" accept=".json,application/json"><p class="msg" id="impMsg" role="status"></p></div>
+  <div class="card"><h2>Website source code</h2><p class="muted">The app itself, not your data.</p><button class="btn" id="xZip">Download HabitFlow Source Code</button><p class="msg" id="zipMsg" role="status"></p></div>
+  <div class="card"><h2>Danger zone</h2><div class="row wrap"><button class="btn danger" id="clearBtn">Clear local data</button></div></div>
+</section>
+
+<section class="view" id="v-about">
+  <div class="top"><h1>About HabitFlow</h1></div>
+  <div class="card"><p>HabitFlow is a simple and user-friendly habit tracking platform designed to help people build consistency, improve productivity and achieve their personal goals. It provides an easy way to track daily routines, monitor progress and understand habits through meaningful visual analytics.</p>
+  <h3>Developer: Ajith Yash</h3><p>Designed and developed with a focus on simplicity, usability and personal productivity.</p></div>
+</section>
+
+<section class="view" id="v-profile">
+  <div class="top"><h1>Profile &amp; Settings</h1></div>
+  <div class="card"><h2>Profile</h2><div id="profInfo"></div>
+    <form id="fProf" novalidate><div class="row wrap"><label class="grow">Full name<input id="pName"></label><label class="grow">Username<input id="pUser"></label><label class="grow">Email<input id="pEmail" type="email"></label></div><button class="btn">Save profile</button></form>
+    <h3>Change password</h3><form id="fPw" novalidate class="row wrap"><label class="grow">Current<input id="pwOld" type="password" autocomplete="current-password"></label><label class="grow">New (min 8)<input id="pwNew" type="password" autocomplete="new-password"></label><button class="btn">Update password</button></form>
+    <p class="msg" id="profMsg" role="status"></p>
+    <div class="row wrap"><button class="btn ghost" id="outBtn">Log out</button><button class="btn danger" id="delAcct">Delete account</button></div></div>
+  <div class="card"><h2>Preferences</h2><div class="row wrap">
+    <label>Theme<select id="sTheme"><option value="light">Light</option><option value="dark">Dark</option></select></label>
+    <label>Week starts on<select id="sWeek"><option value="0">Sunday</option><option value="1">Monday</option></select></label>
+    <label>Date format<select id="sDate"><option value="iso">2026-10-30</option><option value="dmy">30/10/2026</option><option value="mdy">10/30/2026</option></select></label></div>
+    <label class="inl"><input type="checkbox" id="sNotif">Browser reminder notifications</label>
+    <p class="muted">Reminders only fire while HabitFlow is open in a browser tab or installed window. They cannot run when it is closed.</p></div>
+  <div class="card"><h2>Privacy</h2><p class="muted">Accounts, habits and progress are stored in this browser (IndexedDB and LocalStorage). Nothing is sent to any server, and there is no analytics or tracking. Clearing browser data deletes your records, so export backups regularly.</p></div>
+</section>
+</main>
+
+<nav class="bottom" aria-label="Mobile"><a href="#dashboard"><i data-ic="home"></i>Home</a><a href="#habits"><i data-ic="list"></i>Habits</a><a href="#analytics"><i data-ic="chart"></i>Analytics</a><a href="#calendar"><i data-ic="cal"></i>Calendar</a><a href="#profile"><i data-ic="user"></i>Profile</a></nav>
+
+<footer class="foot"><div class="fgrid">
+  <div><h4>HabitFlow</h4><p class="muted">Build Better Habits. One Day at a Time. A private habit tracker that runs entirely in your browser.</p></div>
+  <div><h4>Quick Links</h4><a href="#home">Home</a><a href="#dashboard">Dashboard</a><a href="#habits">My Habits</a><a href="#analytics">Analytics</a><a href="#calendar">Calendar</a><a href="#about">About</a><a href="#downloads">Downloads</a><a href="#profile">Settings</a></div>
+  <div><h4>Contact</h4><a href="mailto:ajithyashofficial@gmail.com">ajithyashofficial@gmail.com</a>
+   <div class="social"><a href="https://github.com/Ajith-yash" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i data-ic="github"></i></a><a href="https://www.linkedin.com/in/ajith-yash-undefined-775838447/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i data-ic="linkedin"></i></a><a href="https://www.instagram.com/ajith_yash12/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i data-ic="instagram"></i></a></div></div></div>
+  <p class="credit">Designed &amp; Developed by Ajith Yash</p></footer>
+
+<dialog id="dForm"><form id="hForm" novalidate><h2 id="hTitle">New habit</h2>
+  <label>Name<input id="hName" maxlength="60"></label><label>Description<input id="hDesc" maxlength="200"></label>
+  <div class="row wrap"><label class="grow">Category<select id="hCat"></select></label><label class="grow">Frequency<select id="hFreq"><option value="daily">Every day</option><option value="weekly">Weekly (one day)</option><option value="custom">Selected days</option></select></label></div>
+  <div class="row wrap" id="hDays"></div>
+  <div class="row wrap"><label class="grow">Target<input id="hTarget" maxlength="40" placeholder="e.g. 8 glasses"></label><label class="grow">Start date<input id="hStart" type="date"></label></div>
+  <div class="row wrap"><label class="grow">Reminder<input id="hRem" type="time"></label><label>Colour<input id="hColor" type="color" value="#2563EB"></label><label class="grow">Icon<select id="hIcon"></select></label></div>
+  <p class="msg err" id="hErr" role="alert"></p><div class="row end"><button class="btn ghost" type="button" id="hCancel">Cancel</button><button class="btn">Save habit</button></div></form></dialog>
+<dialog id="dAsk"><p id="askMsg"></p><div class="row end wrap" id="askBtns"></div></dialog>
+<dialog id="dInfo"><div id="infoBody"></div><div class="row end"><button class="btn ghost" id="infoClose">Close</button></div></dialog>
+<div class="toast" id="toast" role="status"></div>
+
+<script src="libraries/jszip.min.js"></script><script src="libraries/mini-charts.js"></script>
+<script src="js/icons.js"></script><script src="js/utils.js"></script><script src="js/database.js"></script><script src="js/auth.js"></script>
+<script src="js/habits.js"></script><script src="js/analytics.js"></script><script src="js/calendar.js"></script><script src="js/settings.js"></script><script src="js/export.js"></script><script src="js/app.js"></script>
+</body></html>
